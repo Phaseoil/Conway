@@ -3,6 +3,7 @@
 from time import sleep
 from os import system
 from copy import deepcopy
+from random import randint
 from cell import Cell
 
 
@@ -20,8 +21,10 @@ class ConwaysGameOfLife:
         Args:
             l (list): two-dimensional list of cells.
         """
+        line_length = len(self._field[0])
         for line in self._field:
-            print("".join([str(line[i]) for i in range(len(line))]))
+            print("".join([str(line[i]) for i in range(len(line))]), "|")
+        print("".join(["-" * line_length]))
 
     def next_generation(self):
         new_field = deepcopy(self._field)
@@ -63,7 +66,7 @@ class ConwaysGameOfLife:
         while True:
             self.print_field()
             self.next_generation()
-            sleep(2)
+            sleep(0.2)
             system('cls')
 
     def set_cell(self, x, y):
@@ -125,30 +128,9 @@ class ConwaysGameOfLife:
 
         return l
 
-    def get_neighbors_as_string_list(self, x, y):
-        l = []
-        if x > 0:
-            l.append(str(self._field[y][x - 1]))
-
-        if y > 0:
-            l.append(str(self._field[y - 1][x]))
-
-        if x > 0 and y > 0:
-            l.append(str(self._field[y - 1][x - 1]))
-
-        if x < len(self._field[0]) - 1:
-            l.append(str(self._field[y][x + 1]))
-
-        if y < len(self._field) - 1:
-            l.append(str(self._field[y + 1][x]))
-
-        if x < len(self._field[0]) - 1 and y < len(self._field) - 1:
-            l.append(str(self._field[y + 1][x + 1]))
-
-        if x > 0 and y < len(self._field) - 1:
-            l.append(str(self._field[y + 1][x - 1]))
-
-        if x < len(self._field[0]) - 1 and y > 0:
-            l.append(str(self._field[y - 1][x + 1]))
-
-        return l
+    def random_activation(self):
+        for line in self._field:
+            for cell in line:
+                rnd = randint(0, 1)
+                if rnd == 1:
+                    cell.ressurect()
