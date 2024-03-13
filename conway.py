@@ -66,7 +66,7 @@ class ConwaysGameOfLife:
         while True:
             self.print_field()
             self.next_generation()
-            sleep(0.2)
+            sleep(0.05)
             system('cls')
 
     def set_cell(self, x, y):
